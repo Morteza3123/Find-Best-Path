@@ -1,6 +1,6 @@
 const { ethers } = require("ethers");
 const { ChainId, UniswapPair, ETH, UniswapPairSettings, UniswapVersion } = require("simple-uniswap-sdk");
-const { quickRouterAddress, routerAbi, tokenAbi } = require("./abi");
+const { polydexRouterAddress, routerAbi, tokenAbi } = require("./abi");
 require("dotenv").config({ path: __dirname + "/.env" });
 
 var url = 'https://polygon-rpc.com/';
@@ -8,7 +8,7 @@ const provider = new ethers.providers.JsonRpcProvider(url);
 const wallet = new ethers.Wallet(process.env.KEY, provider);
 
 const usdtAddress = "0xc2132d05d31c914a87c6611c10748aeb04b58e8f";
-const wbtcAddress = "0xd6df932a45c0f255f85145f286ea0b292b21c90b";
+const wbtcAddress = "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6";
 
 const getBestPath = async (fromToken, toToken) => {
   const uniswapPair = new UniswapPair({
@@ -33,9 +33,9 @@ const getBestPath = async (fromToken, toToken) => {
       uniswapVersions: [UniswapVersion.v2], // Only V2
       cloneUniswapContractDetails: {
         v2Override: {
-          routerAddress: "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
-          factoryAddress: "0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32",
-          pairAddress: "0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32",
+          routerAddress: "0xC60aE14F2568b102F8Ca6266e8799112846DD088",
+          factoryAddress: "0xEAA98F7b5f7BfbcD1aF14D0efAa9d9e68D82f640",
+          pairAddress: "0xEAA98F7b5f7BfbcD1aF14D0efAa9d9e68D82f640",
         },
       },
       customNetwork: {
@@ -70,7 +70,7 @@ const getBestPath = async (fromToken, toToken) => {
             usdc: {
                 chainId: 137,
                 contractAddress: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-                decimals: 6,
+                decimals: 18,
                 symbol: "USDC",
                 name: "USD Coin",
               },
@@ -115,7 +115,7 @@ async function getDecimals(tokenAddress) {
 }
 
 async function getOut(fromToken, toToken) {
-  const routerContract = new ethers.Contract(quickRouterAddress, routerAbi, provider);
+  const routerContract = new ethers.Contract(polydexRouterAddress, routerAbi, provider);
   const fromDecimals = await getDecimals(fromToken);
   const toDecimals = await getDecimals(toToken);
   const path = await getBestPath(fromToken, toToken);

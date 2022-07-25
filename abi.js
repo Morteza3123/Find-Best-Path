@@ -1,6 +1,8 @@
 const uniRouterAddress = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
 const pancakeRouterAddress = '0x10ED43C718714eb63d5aA57B78B54704E256024E'
 const quickRouterAddress = '0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff'
+const sushiRouterAddress = '0x1b02da8cb0d097eb8d57a175b88c7d8b47997506'
+const polydexRouterAddress = '0xC60aE14F2568b102F8Ca6266e8799112846DD088'
 
 const routerAbi = [
     {
@@ -1232,5 +1234,7 @@ module.exports = {
     pancakeRouterAddress,
     quickRouterAddress,
     routerAbi,
-    tokenAbi
+    tokenAbi,
+    sushiRouterAddress,
+    polydexRouterAddress
 }

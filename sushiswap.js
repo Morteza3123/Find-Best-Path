@@ -1,6 +1,6 @@
 const { ethers } = require("ethers");
 const { ChainId, UniswapPair, ETH, UniswapPairSettings, UniswapVersion } = require("simple-uniswap-sdk");
-const { quickRouterAddress, routerAbi, tokenAbi } = require("./abi");
+const { sushiRouterAddress, routerAbi, tokenAbi } = require("./abi");
 require("dotenv").config({ path: __dirname + "/.env" });
 
 var url = 'https://polygon-rpc.com/';
@@ -8,7 +8,7 @@ const provider = new ethers.providers.JsonRpcProvider(url);
 const wallet = new ethers.Wallet(process.env.KEY, provider);
 
 const usdtAddress = "0xc2132d05d31c914a87c6611c10748aeb04b58e8f";
-const wbtcAddress = "0xd6df932a45c0f255f85145f286ea0b292b21c90b";
+const wbtcAddress = "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39";
 
 const getBestPath = async (fromToken, toToken) => {
   const uniswapPair = new UniswapPair({
@@ -33,9 +33,9 @@ const getBestPath = async (fromToken, toToken) => {
       uniswapVersions: [UniswapVersion.v2], // Only V2
       cloneUniswapContractDetails: {
         v2Override: {
-          routerAddress: "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
-          factoryAddress: "0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32",
-          pairAddress: "0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32",
+          routerAddress: "0x1b02da8cb0d097eb8d57a175b88c7d8b47997506",
+          factoryAddress: "0xc35dadb65012ec5796536bd9864ed8773abc74c4",
+          pairAddress: "0xc35dadb65012ec5796536bd9864ed8773abc74c4",
         },
       },
       customNetwork: {
@@ -62,10 +62,10 @@ const getBestPath = async (fromToken, toToken) => {
             },
             comp: {
                 chainId: 137,
-                contractAddress: "0xa8d394fe7380b8ce6145d5f85e6ac22d4e91acde",
+                contractAddress: "0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a",
                 decimals: 18,
-                symbol: "BUSD",
-                name: "Binance USD",
+                symbol: "Sushi",
+                name: "Sushi token",
               },
             usdc: {
                 chainId: 137,
@@ -115,7 +115,7 @@ async function getDecimals(tokenAddress) {
 }
 
 async function getOut(fromToken, toToken) {
-  const routerContract = new ethers.Contract(quickRouterAddress, routerAbi, provider);
+  const routerContract = new ethers.Contract(sushiRouterAddress, routerAbi, provider);
   const fromDecimals = await getDecimals(fromToken);
   const toDecimals = await getDecimals(toToken);
   const path = await getBestPath(fromToken, toToken);
